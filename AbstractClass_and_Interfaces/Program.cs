@@ -42,6 +42,7 @@ namespace AbstactClass_And_Interfaces
             entity.Attack();
         }
     }
+
     public abstract class GameEntity
     {
         int health;
@@ -55,20 +56,24 @@ namespace AbstactClass_And_Interfaces
                 health = value;
             }
         }
+        //No need to override this because were using the base method
         public void Move()
         {
             Console.WriteLine($"IM ON THE MOVE");
         }
         public abstract void Attack();
     }
+
     //Will give an error if attack methods isn't in player
     public class Player : GameEntity
     {
+        //Overriding this because were giving the method a new method
         public override void Attack()
         {
             Console.WriteLine("player wack attack");
         }
     }
+
     public class Enemy : GameEntity
     {
         public override void Attack()
@@ -76,19 +81,28 @@ namespace AbstactClass_And_Interfaces
             Console.WriteLine("Enemy smack attack");
         }
     }
+
     public interface ICollectible
     {
         void OnCollect();
     }
+
     public interface IUsable
     {
         void Use();
         int UsesLeft { get; set; }
 
     }
+    //When using interface always gotta add the methods used 
     public class HealingPotion : ICollectible, IUsable
     {
+        public HealingPotion(int uses)
+        {
+            usesLeft = uses;
+        }
+
         int usesLeft;
+
         public int UsesLeft
         {
             get => usesLeft;
@@ -98,10 +112,6 @@ namespace AbstactClass_And_Interfaces
                 usesLeft = value;
             }
         }
-        public HealingPotion(int uses)
-        {
-            usesLeft = uses;
-        }
 
         //Use public void OnCollect and not ICollectible.OnCollect()
         public void OnCollect()
@@ -109,6 +119,7 @@ namespace AbstactClass_And_Interfaces
             usesLeft++;
             Console.WriteLine($"Potion found, only {usesLeft} left");
         }
+
         //Use public void use and not IUsable.Use()
         public void Use()
         {
